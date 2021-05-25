@@ -31,22 +31,58 @@ public class DynamicIntArray {
         return array.length;
     }
 
+    public void update(int index, int value) {
+        if (index > array.length - 1) {
+            System.out.println("There is no such index");
+            return;
+        }
+        for (int i = 0; i < array.length; i++) {
+            if (i == index)
+                array[i] = value;
+        }
+    }
+
+    public void swap(int firstIndex, int secondIndex) {
+        if (firstIndex > array.length - 1 || secondIndex > array.length - 1) {
+            System.out.println("There is no such index");
+            return;
+        }
+        for (int i = 0; i < array.length; i++) {
+            int temp1 = array[firstIndex];
+            int temp2 = array[secondIndex];
+            array[firstIndex] = temp2;
+            array[secondIndex] = temp1;
+        }
+    }
+
     public void sort(String text) {
+        if (text.equalsIgnoreCase("asc"))
+            sortAsc();
+        else if (text.equalsIgnoreCase("desc"))
+            sortDesc();
+    }
+
+    private void sortAsc() {
         int temp = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 1; j < array.length - i; j++) {
-                if (text.equalsIgnoreCase("asc")) {
-                    if (array[j - 1] > array[j]) {
-                        temp = array[j - 1];
-                        array[j - 1] = array[j];
-                        array[j] = temp;
-                    }
-                } else if (text.equalsIgnoreCase("desc")) {
-                    if (array[j - 1] < array[j]) {
-                        temp = array[j - 1];
-                        array[j - 1] = array[j];
-                        array[j] = temp;
-                    }
+                if (array[j - 1] > array[j]) {
+                    temp = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = temp;
+                }
+            }
+        }
+    }
+
+    private void sortDesc() {
+        int temp = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 1; j < array.length - i; j++) {
+                if (array[j - 1] < array[j]) {
+                    temp = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = temp;
                 }
             }
         }
