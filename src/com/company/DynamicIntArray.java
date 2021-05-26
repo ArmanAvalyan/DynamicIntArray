@@ -8,11 +8,28 @@ public class DynamicIntArray {
     private int[] array = new int[length];
 
     public void add(int number) {
-        int[] newArray = Arrays.copyOf(array, array.length + 1);
+        int[] newArray = new int[array.length + 1];
         for (int i = 0; i < array.length; i++) {
-            array[i] = newArray[i];
+            newArray[i] = array[i];
         }
         newArray[newArray.length - 1] = number;
+        setArray(newArray);
+    }
+
+    public void remove(int index) {
+        if (!checkIndex(index)) {
+            System.out.println("There is no such index");
+            return;
+        }
+        int[] newArray = new int[array.length - 1];
+        int newIndex = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (index == i) {
+                continue;
+            }
+            newArray[newIndex] = array[i];
+            newIndex++;
+        }
         setArray(newArray);
     }
 
@@ -32,7 +49,7 @@ public class DynamicIntArray {
     }
 
     public void update(int index, int value) {
-        if (index > array.length - 1) {
+        if (!checkIndex(index)) {
             System.out.println("There is no such index");
             return;
         }
@@ -42,17 +59,22 @@ public class DynamicIntArray {
         }
     }
 
+    private boolean checkIndex(int index) {
+        boolean checkIndex = true;
+        if (index > array.length - 1)
+            checkIndex = false;
+        return checkIndex;
+    }
+
     public void swap(int firstIndex, int secondIndex) {
-        if (firstIndex > array.length - 1 || secondIndex > array.length - 1) {
+        if (!checkIndex(firstIndex) || !checkIndex(secondIndex)) {
             System.out.println("There is no such index");
             return;
         }
-        for (int i = 0; i < array.length; i++) {
-            int temp1 = array[firstIndex];
-            int temp2 = array[secondIndex];
-            array[firstIndex] = temp2;
-            array[secondIndex] = temp1;
-        }
+        int temp1 = array[firstIndex];
+        int temp2 = array[secondIndex];
+        array[firstIndex] = temp2;
+        array[secondIndex] = temp1;
     }
 
     public void sort(String text) {
@@ -63,7 +85,7 @@ public class DynamicIntArray {
     }
 
     private void sortAsc() {
-        int temp = 0;
+        int temp;
         for (int i = 0; i < array.length; i++) {
             for (int j = 1; j < array.length - i; j++) {
                 if (array[j - 1] > array[j]) {
@@ -76,7 +98,7 @@ public class DynamicIntArray {
     }
 
     private void sortDesc() {
-        int temp = 0;
+        int temp;
         for (int i = 0; i < array.length; i++) {
             for (int j = 1; j < array.length - i; j++) {
                 if (array[j - 1] < array[j]) {
